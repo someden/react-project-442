@@ -35,12 +35,12 @@ export const canApply = (build: Build, talentClass: TalentClass, change: Change)
   return { ok: true };
 };
 
-const getTalentById = (talentClass: TalentClass, talentId: string): Talent | undefined =>
+export type TalentWithTreeId = Talent & { treeId: string };
+
+export const getTalentById = (talentClass: TalentClass, talentId: string): TalentWithTreeId | undefined =>
   getTalents(talentClass).find((talent) => talent.id === talentId);
 
-type TalentWithTreeId = Talent & { treeId: string };
-
-const getTalents = (talentClass: TalentClass): TalentWithTreeId[] =>
+export const getTalents = (talentClass: TalentClass): TalentWithTreeId[] =>
   talentClass.trees.flatMap((tree) => tree.talents.map((talent) => ({ ...talent, treeId: tree.id })));;
 
 export const getBuildTotal = (build: Build): number =>

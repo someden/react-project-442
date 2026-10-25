@@ -1,21 +1,46 @@
-import { MantineProvider } from "@mantine/core";
+import { Alert, List, MantineProvider } from "@mantine/core";
 import { Notifications, createNotificationsStore } from "@mantine/notifications";
 import Calculator from './Calculator'
 import type { TalentClass } from "./types";
 import { createBuildStore } from "./store";
+import { validateTalentClass } from "./validateTalentClass";
 
 import "@mantine/core/styles.layer.css";
 import "@mantine/notifications/styles.layer.css";
 import "./init.css";
 
-const init = (talentClass: TalentClass) => {
+const errorsScreen = (talentClass: TalentClass, errors: string[]) => {
+  return (
+    <main className="calculator">
+      <h1>{talentClass.name}</h1>
+      <Alert color="red" title="Класс не отрисован, в данных ошибки.">
+        <List data-testid="structure-errors">
+          {errors.map((error) => <List.Item key={error}>{error}</List.Item>)}
+        </List>
+      </Alert>
+    </main>
+  );
+};
+
+const calculatorScreen = (talentClass: TalentClass) => {
   const useBuild = createBuildStore(talentClass);
   const notificationsStore = createNotificationsStore();
 
   return (
-    <MantineProvider>
+    <>
       <Notifications position="bottom-right" store={notificationsStore} />
       <Calculator talentClass={talentClass} useBuild={useBuild} notificationsStore={notificationsStore} />
+    </>
+  );
+};
+
+
+const init = (talentClass: TalentClass) => {
+  const errors = validateTalentClass(talentClass);
+
+  return (
+    <MantineProvider>
+      {errors.length > 0 ? errorsScreen(talentClass, errors) : calculatorScreen(talentClass)}
     </MantineProvider>
   );
 };
