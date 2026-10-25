@@ -1,10 +1,13 @@
 import { MantineProvider } from "@mantine/core";
-import "@mantine/core/styles.layer.css";
-import App from './App.tsx'
+import Calculator from './Calculator'
+import type { TalentClass } from "./types";
 
-const init = () => (
+import "@mantine/core/styles.layer.css";
+import "./init.css";
+
+const init = (talentClass: TalentClass) => (
   <MantineProvider>
-    <App />
+    <Calculator talentClass={talentClass} />
   </MantineProvider>
 );
 
