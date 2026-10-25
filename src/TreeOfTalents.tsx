@@ -1,7 +1,9 @@
 import type { CSSProperties } from "react";
 import { Card, Stack, Text, Title, Tooltip } from "@mantine/core";
 
-import type { TalentClass, Tree } from "./types";
+import type { Change } from "./rules";
+import { getTreeTotal, getTalentRank, getTalentState } from "./rules";
+import type { Build, TalentClass, Tree } from "./types";
 
 const getRowsCount = (tree: Tree) =>
   tree.talents.reduce((last, talent) => Math.max(last, talent.row + 1), 0);
@@ -13,10 +15,13 @@ const GAP = 16;
 type TreeOfTalentsProps = {
   tree: Tree;
   talentClass: TalentClass;
+  build: Build;
+  change: (c: Change) => void;
 };
 
-function TreeOfTalents({ tree, talentClass }: TreeOfTalentsProps) {
+function TreeOfTalents({ tree, talentClass, build, change }: TreeOfTalentsProps) {
   const rows = Array.from({ length: getRowsCount(tree) }, (_, i) => i);
+  const treeTotal = getTreeTotal(build, talentClass, tree.id);
 
   return (
     <Card data-testid={`tree-${tree.id}`} padding="sm" withBorder>
@@ -54,7 +59,7 @@ function TreeOfTalents({ tree, talentClass }: TreeOfTalentsProps) {
                           {talent.name}
                         </Text>
                         <Text c="dimmed">
-                          Ранг 0 из {talent.maxRank}
+                          Ранг {getTalentRank(build, talent.id)} из {talent.maxRank}
                         </Text>
                         <Text>{talent.text}</Text>
                       </Stack>
@@ -62,13 +67,18 @@ function TreeOfTalents({ tree, talentClass }: TreeOfTalentsProps) {
                   >
                     <button
                       data-testid={`talent-${talent.id}`}
-                      data-state="locked"
+                      data-state={getTalentState(build, talentClass, talent)}
                       type="button"
                       className="talent"
+                      onClick={() => change({ talentId: talent.id, delta: 1 })}
+                      onContextMenu={(event) => {
+                        event.preventDefault();
+                        change({ talentId: talent.id, delta: -1 });
+                      }}
                     >
                       <span>{talent.name}</span>
                       <span className="talent-rank">
-                        0/{talent.maxRank}
+                        {getTalentRank(build, talent.id)}/{talent.maxRank}
                       </span>
                     </button>
                   </Tooltip>
@@ -78,6 +88,9 @@ function TreeOfTalents({ tree, talentClass }: TreeOfTalentsProps) {
           );
         })}
       </div>
+      <Text data-testid={`tree-spent-${tree.id}`} mt="xs">
+        Вложено: {treeTotal}
+      </Text>
     </Card>
   );
 };

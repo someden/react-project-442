@@ -12,14 +12,19 @@ export type Tree = {
   talents: Talent[];
 };
 
+type TalentId = string;
+type Rank = number;
+
 export type Talent = {
-  id: string;
+  id: TalentId;
   name: string;
   row: number;
   col: number;
-  maxRank: number;
+  maxRank: Rank;
   requires?: string;
   text: string;
 };
 
 export type TalentState = "available" | "locked" | "maxed";
+
+export type Build = Record<TalentId, Rank>;
