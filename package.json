@@ -12,6 +12,7 @@
   "dependencies": {
     "@mantine/core": "^9.7.3",
     "@mantine/hooks": "^9.7.3",
+    "@mantine/notifications": "^9.7.3",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
     "zustand": "^5.0.16"

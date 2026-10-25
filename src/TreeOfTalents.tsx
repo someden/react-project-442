@@ -1,16 +1,18 @@
 import type { CSSProperties } from "react";
 import { Card, Stack, Text, Title, Tooltip } from "@mantine/core";
 
+import {
+  TALENT_CELL_HEIGHT,
+  TALENT_CELL_WIDTH,
+  GAP,
+} from "./grid";
 import type { Change } from "./rules";
-import { getTreeTotal, getTalentRank, getTalentState } from "./rules";
+import { getTreeTotal, getTalentRank, getTalentState, getRowNeeds } from "./rules";
 import type { Build, TalentClass, Tree } from "./types";
+import TalentLinks from "./TalentLinks";
 
 const getRowsCount = (tree: Tree) =>
   tree.talents.reduce((last, talent) => Math.max(last, talent.row + 1), 0);
-
-const TALENT_CELL_WIDTH = 140;
-const TALENT_CELL_HEIGHT = 140;
-const GAP = 16;
 
 type TreeOfTalentsProps = {
   tree: Tree;
@@ -40,6 +42,12 @@ function TreeOfTalents({ tree, talentClass, build, change }: TreeOfTalentsProps)
         }
 
       >
+        <TalentLinks
+          tree={tree}
+          rows={rows.length}
+          columns={talentClass.columns}
+          tiers={rows.slice(1).map((row) => ({ needs: getRowNeeds(talentClass, row), row }))}
+        />
         {rows.map((row) => {
           return (
             <div key={row} data-testid={`row-${tree.id}-${row}`} className="talents-grid__row">

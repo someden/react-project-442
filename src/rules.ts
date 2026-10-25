@@ -4,27 +4,32 @@ export const getTalentRank = (build: Build, talentId: string): number => build[t
 
 export type Change = { talentId: string; delta: number };
 
-type Verdict = { ok: boolean };
+type Verdict = { ok: true } | { ok: false, reason: string };
 
 export const canApply = (build: Build, talentClass: TalentClass, change: Change): Verdict => {
   const talent = getTalentById(talentClass, change.talentId);
   if (!talent) {
-    return { ok: false };
+    return { ok: false, reason: `В классе нет таланта ${change.talentId}` };
   }
 
   const nextRank = getTalentRank(build, change.talentId) + change.delta;
-  if (
-    nextRank > talent.maxRank ||
-    nextRank < 0 ||
-    (change.delta > 0 && change.delta + getBuildTotal(build) > talentClass.budget)
-  ) {
-    return { ok: false };
+  if (nextRank > talent.maxRank) {
+    return { ok: false, reason: `Талант "${talent.name}" уже на максимальном ранге ${talent.maxRank}` };
+  }
+
+  if (nextRank < 0) {
+    return { ok: false, reason: `В «${talent.name}» нечего снимать` };
+  }
+
+  if (change.delta > 0 && change.delta + getBuildTotal(build) > talentClass.budget) {
+    return { ok: false, reason: `Бюджет класса ${talentClass.budget} и все очки разложены` };
   }
 
   const nextBuild = { ...build, [change.talentId]: nextRank };
+  const invalidTalents = validateBuild(talentClass, nextBuild);
 
-  if (validateBuild(talentClass, nextBuild).length > 0) {
-    return { ok: false };
+  if (invalidTalents.length > 0) {
+    return { ok: false, reason: invalidTalents[0].message };
   }
 
   return { ok: true };
@@ -50,7 +55,7 @@ export const getTreeTotal = (build: Build, talentClass: TalentClass, treeId: str
   return tree.talents.reduce((sum, talent) => sum + getTalentRank(build, talent.id), 0);
 };
 
-type InvalidTalent = { talentId: string; };
+type InvalidTalent = { talentId: string; message: string; };
 
 export const validateBuild = (talentClass: TalentClass, build: Build) => {
   const talents = getTalents(talentClass);
@@ -61,12 +66,18 @@ export const validateBuild = (talentClass: TalentClass, build: Build) => {
     const rowNeeds = getRowNeeds(talentClass, talent.row);
     const treeTotal = getTreeTotal(build, talentClass, talent.treeId);
     if (treeTotal < rowNeeds) {
-      invalidTalents.push({ talentId: talent.id })
+      invalidTalents.push({
+        talentId: talent.id,
+        message: `Для таланта «${talent.name}» нужно ${rowNeeds} очков опоры, а набрано ${treeTotal}`,
+      })
     }
     if (talent.requires) {
       const required = getTalentById(talentClass, talent.requires);
       if (required && getTalentRank(build, required.id) < required.maxRank) {
-        invalidTalents.push({ talentId: talent.id })
+        invalidTalents.push({
+          talentId: talent.id,
+          message: `Для таланта «${talent.name}» нужно ${required.maxRank} очков опоры, а набрано ${getTalentRank(build, required.id)}`,
+        })
       }
     }
   }
@@ -74,7 +85,7 @@ export const validateBuild = (talentClass: TalentClass, build: Build) => {
   return invalidTalents;
 };
 
-const getRowNeeds = (talentClass: TalentClass, row: number): number => talentClass.pointsPerRow * row;
+export const getRowNeeds = (talentClass: TalentClass, row: number): number => talentClass.pointsPerRow * row;
 
 export const getTalentState = (build: Build, talentClass: TalentClass, talent: Talent): TalentState => {
   if (getTalentRank(build, talent.id) >= talent.maxRank) {

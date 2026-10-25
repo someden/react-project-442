@@ -36,3 +36,11 @@ body {
   bottom: 5px;
   font-weight: bold;
 }
+
+.tree__links {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  color: var(--mantine-color-gray-5);
+}
