@@ -43,7 +43,7 @@ function Calculator({ talentClass, useBuild, notificationsStore }: CalculatorPro
 
   return (
     <section data-testid="calculator">
-      <Text data-testid="budget-left" mb="sm">
+      <Text className="budget" data-testid="budget-left" mb="sm">
         Осталось очков: {talentClass.budget - getBuildTotal(build)}
       </Text>
       <Group align="flex-start">

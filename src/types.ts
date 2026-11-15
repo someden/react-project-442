@@ -9,6 +9,7 @@ export type TalentClass = {
 export type Tree = {
   id: string;
   name: string;
+  icon?: string;
   talents: Talent[];
 };
 
@@ -23,6 +24,7 @@ export type Talent = {
   maxRank: Rank;
   requires?: string;
   text: string;
+  icon?: string;
 };
 
 export type TalentState = "available" | "locked" | "maxed";

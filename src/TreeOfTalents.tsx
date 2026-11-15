@@ -26,16 +26,22 @@ function TreeOfTalents({ tree, talentClass, build, change }: TreeOfTalentsProps)
   const treeTotal = getTreeTotal(build, talentClass, tree.id);
 
   return (
-    <Card data-testid={`tree-${tree.id}`} padding="sm" withBorder>
-      <Title mb="xs" order={2}>
+    <Card
+      className="tree"
+      data-testid={`tree-${tree.id}`}
+      padding="sm"
+      withBorder
+    >
+      <Title className="tree__title" mb="xs" order={2}>
+        {tree.icon && <img alt="" className="tree__icon" src={tree.icon} />}
         {tree.name}
       </Title>
       <div
-        className="talents-grid"
+        className="tree__grid"
         style={
           {
-            "--talent-width": `${TALENT_CELL_WIDTH}px`,
-            "--talent-height": `${TALENT_CELL_HEIGHT}px`,
+            "--cell-w": `${TALENT_CELL_WIDTH}px`,
+            "--cell-h": `${TALENT_CELL_HEIGHT}px`,
             "--columns": talentClass.columns,
             "--gap": `${GAP}px`,
           } as CSSProperties
@@ -50,10 +56,10 @@ function TreeOfTalents({ tree, talentClass, build, change }: TreeOfTalentsProps)
         />
         {rows.map((row) => {
           return (
-            <div key={row} data-testid={`row-${tree.id}-${row}`} className="talents-grid__row">
+            <div key={row} data-testid={`row-${tree.id}-${row}`} className="tree__row">
               {Array.from({ length: talentClass.columns }, (_, col) => {
                 const talent = tree.talents.find((it) => it.row === row && it.col === col);
-                if (!talent) return <div className="talent" key={col} />;
+                if (!talent) return <div className="cell cell__empty" key={col} />;
                 return (
                   <Tooltip
                     key={col}
@@ -77,15 +83,22 @@ function TreeOfTalents({ tree, talentClass, build, change }: TreeOfTalentsProps)
                       data-testid={`talent-${talent.id}`}
                       data-state={getTalentState(build, talentClass, talent)}
                       type="button"
-                      className="talent"
+                      className="cell"
                       onClick={() => change({ talentId: talent.id, delta: 1 })}
                       onContextMenu={(event) => {
                         event.preventDefault();
                         change({ talentId: talent.id, delta: -1 });
                       }}
                     >
-                      <span>{talent.name}</span>
-                      <span className="talent-rank">
+                      {talent.icon ? (
+                        <img alt="" className="cell__icon" src={talent.icon} />
+                      ) : (
+                        <span aria-hidden className="cell__icon cell__icon_letter">
+                          {talent.name.slice(0, 1)}
+                        </span>
+                      )}
+                      <span className="cell__name">{talent.name}</span>
+                      <span className="cell__rank">
                         {getTalentRank(build, talent.id)}/{talent.maxRank}
                       </span>
                     </button>
@@ -96,7 +109,7 @@ function TreeOfTalents({ tree, talentClass, build, change }: TreeOfTalentsProps)
           );
         })}
       </div>
-      <Text data-testid={`tree-spent-${tree.id}`} mt="xs">
+      <Text className="tree__spent" data-testid={`tree-spent-${tree.id}`} mt="xs">
         Вложено: {treeTotal}
       </Text>
     </Card>

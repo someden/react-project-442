@@ -7,7 +7,8 @@ import { validateTalentClass } from "./validateTalentClass";
 
 import "@mantine/core/styles.layer.css";
 import "@mantine/notifications/styles.layer.css";
-import "./init.css";
+import "./theme/fantasy.css";
+import { theme } from "./theme/fantasy";
 
 const errorsScreen = (talentClass: TalentClass, errors: string[]) => {
   return (
@@ -27,10 +28,10 @@ const calculatorScreen = (talentClass: TalentClass) => {
   const notificationsStore = createNotificationsStore();
 
   return (
-    <>
+    <main className="calculator">
       <Notifications position="bottom-right" store={notificationsStore} />
       <Calculator talentClass={talentClass} useBuild={useBuild} notificationsStore={notificationsStore} />
-    </>
+    </main>
   );
 };
 
@@ -39,7 +40,7 @@ const init = (talentClass: TalentClass) => {
   const errors = validateTalentClass(talentClass);
 
   return (
-    <MantineProvider>
+    <MantineProvider theme={theme}>
       {errors.length > 0 ? errorsScreen(talentClass, errors) : calculatorScreen(talentClass)}
     </MantineProvider>
   );
