@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 420" preserveAspectRatio="xMidYMax slice">
+<defs><radialGradient id="sun" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#fff6d8"/><stop offset="0.5" stop-color="#ffe7a3" stop-opacity="0.8"/><stop offset="1" stop-color="#ffe7a3" stop-opacity="0"/></radialGradient>
+<linearGradient id="fade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#efe2c4" stop-opacity="0"/><stop offset="1" stop-color="#efe2c4"/></linearGradient></defs>
+<circle cx="300" cy="110" r="110" fill="url(#sun)"/>
+<path d="M520,90 q6,-6 12,0 q6,-6 12,0" fill="none" stroke="#6b5a45" stroke-width="2" opacity="0.6"/><path d="M560,70 q6,-6 12,0 q6,-6 12,0" fill="none" stroke="#6b5a45" stroke-width="2" opacity="0.6"/><path d="M600,100 q6,-6 12,0 q6,-6 12,0" fill="none" stroke="#6b5a45" stroke-width="2" opacity="0.6"/><path d="M1380,60 q6,-6 12,0 q6,-6 12,0" fill="none" stroke="#6b5a45" stroke-width="2" opacity="0.6"/>
+<path d="M0,420 L0,233 L80,178 L160,142 L240,148 L320,153 L400,242 L480,218 L560,235 L640,187 L720,153 L800,193 L880,190 L960,167 L1040,202 L1120,150 L1200,224 L1280,238 L1360,188 L1440,247 L1520,144 L1600,201 L1600,420 Z" fill="#b9c3d6" opacity="0.8"/>
+<path d="M0,420 L0,313 L60,309 L120,310 L180,274 L240,299 L300,281 L360,288 L420,243 L480,293 L540,243 L600,316 L660,246 L720,300 L780,265 L840,270 L900,255 L960,273 L1020,251 L1080,264 L1140,256 L1200,286 L1260,316 L1320,317 L1380,274 L1440,261 L1500,280 L1560,272 L1600,420 Z" fill="#93a48a"/>
+<g fill="#5a4a3c">
+<path d="M1060,330 Q1180,250 1320,300 L1320,420 L1060,420 Z"/>
+<rect x="1150" y="200" width="34" height="110"/><path d="M1145,200 L1167,160 L1189,200 Z" fill="#9b3b2a"/>
+<rect x="1190" y="230" width="70" height="80"/>
+<rect x="1196" y="220" width="10" height="12"/><rect x="1214" y="220" width="10" height="12"/><rect x="1232" y="220" width="10" height="12"/><rect x="1250" y="220" width="10" height="12"/>
+<rect x="1262" y="185" width="26" height="125"/><path d="M1258,185 L1275,140 L1292,185 Z" fill="#9b3b2a"/>
+<rect x="1110" y="250" width="40" height="60"/><path d="M1106,250 L1130,215 L1154,250 Z" fill="#9b3b2a"/>
+<path d="M1275,140 L1275,118 L1295,124 L1275,130" fill="#c8901f"/>
+</g>
+<path d="M0,420 L0,341 L50,364 L100,358 L150,347 L200,379 L250,351 L300,365 L350,377 L400,370 L450,373 L500,357 L550,350 L600,365 L650,356 L700,346 L750,374 L800,344 L850,365 L900,380 L950,367 L1000,354 L1050,363 L1100,369 L1150,356 L1200,370 L1250,376 L1300,372 L1350,341 L1400,341 L1450,352 L1500,372 L1550,372 L1600,380 L1600,420 Z" fill="#6f8a5e"/>
+<rect x="0" y="370" width="1600" height="50" fill="url(#fade)"/>
+</svg>

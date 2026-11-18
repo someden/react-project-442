@@ -1,0 +1,355 @@
+/* Фэнтези-тема калькулятора талантов. Файл пришёл стартером, править его не
+   нужно: подключите его импортом в src/init вместе с темой из fantasy.js.
+
+   Тема опирается на разметку, которую называют шаги проекта от «Дерева из
+   данных» до «Ссылки на билд»: классы calculator, tree, cell и остальные,
+   атрибут data-state у узла и переменные --cell-w, --cell-h, --gap и
+   --columns у сетки. Цвета приходят из палитры gold и
+   parchment, которую задаёт fantasy.js. Шрифт, иконки и фон лежат в public/. */
+
+@font-face {
+  font-family: "Cormorant Garamond";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 600;
+  src: url("/fonts/cormorant-garamond-cyrillic-600-normal.woff2") format("woff2");
+  unicode-range: U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;
+}
+
+@font-face {
+  font-family: "Cormorant Garamond";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 700;
+  src: url("/fonts/cormorant-garamond-cyrillic-700-normal.woff2") format("woff2");
+  unicode-range: U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;
+}
+
+@font-face {
+  font-family: "Cormorant Garamond";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 600;
+  src: url("/fonts/cormorant-garamond-latin-600-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+
+@font-face {
+  font-family: "Cormorant Garamond";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 700;
+  src: url("/fonts/cormorant-garamond-latin-700-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+
+:root {
+  --gold: var(--mantine-color-gold-6);
+  --gold-deep: var(--mantine-color-gold-8);
+  --gold-soft: color-mix(in srgb, var(--mantine-color-gold-7) 45%, transparent);
+  --ink: var(--mantine-color-parchment-8);
+  --available: var(--mantine-color-green-7);
+  --heading-font: "Cormorant Garamond", Georgia, serif;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--ink);
+  background-color: var(--mantine-color-parchment-3);
+  background-image:
+    radial-gradient(ellipse 70% 50% at 50% 0%, color-mix(in srgb, var(--mantine-color-parchment-0) 90%, transparent), transparent 70%),
+    radial-gradient(ellipse 50% 40% at 0% 30%, color-mix(in srgb, var(--mantine-color-parchment-6) 25%, transparent), transparent 70%),
+    radial-gradient(ellipse 50% 40% at 100% 30%, color-mix(in srgb, var(--mantine-color-parchment-6) 25%, transparent), transparent 70%),
+    linear-gradient(180deg, var(--mantine-color-parchment-1) 0%, var(--mantine-color-parchment-4) 100%);
+  background-attachment: fixed;
+}
+
+/* Дневной пейзаж с замком стоит внизу окна и под содержимым. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: auto 0 0;
+  z-index: -1;
+  height: 42vh;
+  background: url("/images/backdrop.svg") center bottom / cover no-repeat;
+  pointer-events: none;
+}
+
+/* Подсказка таланта: тёмная табличка с золотым кантом, на светлом фоне она
+   читается сразу. */
+.mantine-Tooltip-tooltip {
+  border: 1px solid var(--gold);
+  background: linear-gradient(180deg, var(--mantine-color-parchment-8) 0%, var(--mantine-color-parchment-9) 100%);
+  box-shadow: 0 8px 24px color-mix(in srgb, var(--ink) 35%, transparent);
+  color: var(--mantine-color-gold-1);
+}
+
+.mantine-Tooltip-tooltip .mantine-Text-root {
+  color: inherit;
+}
+
+.mantine-Tooltip-tooltip .mantine-Text-root:nth-child(2) {
+  color: var(--mantine-color-gold-3);
+}
+
+.mantine-Tooltip-tooltip .mantine-Text-root:first-child {
+  font-family: var(--heading-font);
+  font-size: 18px;
+}
+
+.mantine-Tooltip-arrow {
+  border-color: var(--gold);
+  background: var(--mantine-color-parchment-8);
+}
+
+.calculator {
+  padding: var(--mantine-spacing-md) var(--mantine-spacing-lg);
+}
+
+.calculator__kicker {
+  margin: 0;
+  color: var(--gold-deep);
+  font-size: var(--mantine-font-size-xs);
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+}
+
+.calculator__header h1 {
+  margin: 0 0 6px;
+  font-family: var(--heading-font);
+  font-size: 44px;
+  font-weight: 700;
+  line-height: 1.05;
+  background: linear-gradient(180deg, var(--gold) 10%, var(--gold-deep) 90%);
+  background-clip: text;
+  color: transparent;
+}
+
+.calculator__header a {
+  color: var(--gold-deep);
+  font-family: var(--heading-font);
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.calculator__link {
+  margin: 0 0 var(--mantine-spacing-sm);
+  font-size: var(--mantine-font-size-xs);
+  overflow-wrap: anywhere;
+}
+
+.calculator__link a {
+  color: color-mix(in srgb, var(--ink) 55%, transparent);
+}
+
+.budget {
+  font-family: var(--heading-font);
+  font-size: 24px;
+  color: var(--gold-deep);
+}
+
+/* Карточка дерева: лист пергамента с золотым кантом. */
+.tree {
+  --mantine-color-default-border: var(--gold-soft);
+  background:
+    radial-gradient(ellipse 90% 40% at 50% 0%, color-mix(in srgb, var(--mantine-color-gold-1) 60%, transparent), transparent 75%),
+    linear-gradient(180deg, var(--mantine-color-parchment-0) 0%, var(--mantine-color-parchment-2) 100%);
+  box-shadow:
+    inset 0 0 0 3px color-mix(in srgb, var(--mantine-color-white) 60%, transparent),
+    inset 0 0 30px color-mix(in srgb, var(--gold) 12%, transparent),
+    0 10px 28px color-mix(in srgb, var(--ink) 18%, transparent);
+}
+
+.tree__title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--ink);
+  font-size: 26px;
+  letter-spacing: 0.02em;
+}
+
+.tree__icon {
+  width: 26px;
+  height: 26px;
+}
+
+.tree__spent {
+  color: color-mix(in srgb, var(--ink) 70%, transparent);
+}
+
+.tree__grid {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+}
+
+/* Оверлей связей лежит поверх сетки и щелчки не перехватывает: без этого
+   playwright не докликивается до узла под ним. Размер слой берёт из своих
+   width и height, посчитанных теми же числами, что и координаты стрелок. */
+.tree__links {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  color: color-mix(in srgb, var(--gold-deep) 70%, transparent);
+}
+
+/* Граница между рядами вместе с порогом. Пунктир показывает ступень, а число
+   рядом с ним говорит, сколько очков в дереве её открывает. */
+.tree__tier-label {
+  fill: color-mix(in srgb, var(--ink) 55%, transparent);
+  font-size: 10px;
+}
+
+.tree__tier {
+  stroke: color-mix(in srgb, var(--gold-deep) 30%, transparent);
+  stroke-dasharray: 4 6;
+  stroke-width: 1;
+}
+
+.tree__row {
+  display: grid;
+  grid-template-columns: repeat(var(--columns), var(--cell-w));
+  gap: var(--gap);
+  align-items: stretch;
+}
+
+/* Узел: иконка сверху, имя под ней, ранг значком в углу, как в калькуляторах
+   жанра. Имя переносится по слогам, язык страницы русский. */
+.cell {
+  font: inherit;
+  position: relative;
+  text-align: center;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 4px;
+  box-sizing: border-box;
+  height: var(--cell-h);
+  padding: 9px 6px 14px;
+  border: 2px solid var(--gold-soft);
+  border-radius: var(--mantine-radius-md);
+  background: linear-gradient(180deg, var(--mantine-color-white) 0%, var(--mantine-color-parchment-1) 100%);
+  box-shadow: 0 3px 8px color-mix(in srgb, var(--ink) 15%, transparent);
+  color: var(--ink);
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.15;
+  hyphens: auto;
+  overflow-wrap: anywhere;
+  transition: transform 120ms ease, box-shadow 120ms ease;
+}
+
+.cell:not(:disabled):hover {
+  transform: translateY(-2px);
+}
+
+.cell:disabled {
+  cursor: default;
+}
+
+.cell_empty {
+  border: none;
+  background: none;
+  box-shadow: none;
+}
+
+.cell__icon {
+  flex: none;
+  width: 38px;
+  height: 38px;
+}
+
+/* Запасной вид узла без картинки: первая буква имени в круге. */
+.cell__icon_letter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  border: 2px solid var(--gold-soft);
+  border-radius: 50%;
+  color: var(--gold-deep);
+  font-family: var(--heading-font);
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.cell__name {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+/* Ранг значком в углу. Фон у значка свой, поэтому строка имени под ним
+   читается. */
+.cell__rank {
+  position: absolute;
+  right: 3px;
+  bottom: 2px;
+  padding: 0 4px;
+  border: 1px solid var(--gold-soft);
+  border-radius: var(--mantine-radius-sm);
+  background: var(--mantine-color-parchment-0);
+  color: var(--ink);
+  font-size: 10px;
+  font-weight: 700;
+}
+
+/* Три состояния узла различаются рамкой, заливкой и цветом иконки сразу,
+   поэтому доступное от выкачанного отличает не только оттенок. */
+.cell[data-state="available"] {
+  border-color: var(--available);
+  background: linear-gradient(180deg, var(--mantine-color-white) 0%, var(--mantine-color-green-0) 100%);
+  box-shadow:
+    0 0 0 3px color-mix(in srgb, var(--available) 15%, transparent),
+    0 3px 8px color-mix(in srgb, var(--ink) 15%, transparent);
+}
+
+.cell[data-state="available"] .cell__rank {
+  border-color: var(--available);
+  color: var(--mantine-color-green-9);
+}
+
+.cell[data-state="locked"] {
+  border-style: dashed;
+  border-color: color-mix(in srgb, var(--ink) 25%, transparent);
+  background: color-mix(in srgb, var(--mantine-color-parchment-3) 70%, transparent);
+  box-shadow: none;
+  color: color-mix(in srgb, var(--ink) 45%, transparent);
+  cursor: not-allowed;
+}
+
+/* Иконка цветная, поэтому закрытый узел гасит её фильтром. */
+.cell[data-state="locked"] .cell__icon {
+  filter: grayscale(1);
+  opacity: 0.45;
+}
+
+.cell[data-state="locked"] .cell__rank {
+  border-color: color-mix(in srgb, var(--ink) 20%, transparent);
+  background: transparent;
+  color: color-mix(in srgb, var(--ink) 45%, transparent);
+}
+
+.cell[data-state="maxed"] {
+  border-color: var(--gold);
+  background:
+    radial-gradient(circle at 50% 30%, color-mix(in srgb, var(--mantine-color-gold-0) 90%, transparent), transparent 70%),
+    linear-gradient(180deg, var(--mantine-color-gold-0) 0%, var(--mantine-color-gold-2) 100%);
+  box-shadow:
+    0 0 0 3px color-mix(in srgb, var(--gold) 25%, transparent),
+    0 0 14px color-mix(in srgb, var(--gold) 45%, transparent);
+}
+
+.cell[data-state="maxed"] .cell__rank {
+  border-color: var(--gold-deep);
+  background: var(--gold);
+  color: var(--mantine-color-parchment-0);
+}

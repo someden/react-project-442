@@ -1,0 +1,52 @@
+{
+  "name": "Следопыт",
+  "budget": 8,
+  "pointsPerRow": 5,
+  "columns": 3,
+  "trees": [
+    {
+      "id": "bow",
+      "name": "Лук",
+      "icon": "/icons/scout/tree-bow.svg",
+      "talents": [
+        { "id": "keeneye", "name": "Меткий глаз", "icon": "/icons/scout/keeneye.svg", "row": 0, "col": 0, "maxRank": 3, "text": "Дальность выстрела больше на 3 м за ранг." },
+        { "id": "steady", "name": "Твёрдая рука", "icon": "/icons/scout/steady.svg", "row": 0, "col": 1, "maxRank": 2, "requires": "keeneye", "text": "Выстрел не сбивается уроном с шансом 25% за ранг." },
+        { "id": "volley", "name": "Залп", "icon": "/icons/scout/volley.svg", "row": 1, "col": 0, "maxRank": 2, "text": "Три стрелы разом по конусу перед собой." },
+        { "id": "piercing", "name": "Бронебой", "icon": "/icons/scout/piercing.svg", "row": 1, "col": 1, "maxRank": 1, "requires": "steady", "text": "Стрела не замечает половину брони цели." }
+      ]
+    },
+    {
+      "id": "beast",
+      "name": "Зверь",
+      "icon": "/icons/scout/tree-beast.svg",
+      "talents": [
+        { "id": "bond", "name": "Связь", "icon": "/icons/scout/bond.svg", "row": 0, "col": 0, "maxRank": 3, "text": "Питомец получает 5% вашего здоровья за ранг." },
+        { "id": "feral", "name": "Дикость", "icon": "/icons/scout/feral.svg", "row": 0, "col": 1, "maxRank": 2, "requires": "bond", "text": "Урон питомца выше на 8% за ранг." },
+        { "id": "maul", "name": "Терзание", "icon": "/icons/scout/maul.svg", "row": 1, "col": 1, "maxRank": 1, "requires": "feral", "text": "Питомец рвёт цель, снимая с неё лечение на 6 сек." },
+        { "id": "pack", "name": "Стая", "icon": "/icons/scout/pack.svg", "row": 1, "col": 0, "maxRank": 2, "text": "Второй питомец выходит на 20 сек. раз в минуту." }
+      ]
+    },
+    {
+      "id": "trail",
+      "name": "Тропа",
+      "icon": "/icons/scout/tree-trail.svg",
+      "talents": [
+        { "id": "tracks", "name": "Следы", "icon": "/icons/scout/tracks.svg", "row": 0, "col": 0, "maxRank": 3, "text": "Видно следы цели ещё 10 сек. за ранг." },
+        { "id": "camo", "name": "Маскировка", "icon": "/icons/scout/camo.svg", "row": 0, "col": 1, "maxRank": 2, "requires": "tracks", "text": "Вас не замечают на 3 м ближе за ранг." },
+        { "id": "trap", "name": "Капкан", "icon": "/icons/scout/trap.svg", "row": 1, "col": 0, "maxRank": 2, "text": "Капкан держит зверя 8 сек." },
+        { "id": "sprint", "name": "Рывок", "icon": "/icons/scout/sprint.svg", "row": 1, "col": 1, "maxRank": 1, "requires": "camo", "text": "Скорость выше вдвое на 5 сек. после выхода из маскировки." }
+      ]
+    },
+    {
+      "id": "venom",
+      "name": "Яд",
+      "icon": "/icons/scout/tree-venom.svg",
+      "talents": [
+        { "id": "poison", "name": "Яд", "icon": "/icons/scout/poison.svg", "row": 0, "col": 0, "maxRank": 3, "text": "Стрела оставляет яд, 4 урона в секунду за ранг." },
+        { "id": "corrode", "name": "Разъедание", "icon": "/icons/scout/corrode.svg", "row": 0, "col": 1, "maxRank": 2, "requires": "poison", "text": "Яд снимает с цели 5% брони за ранг." },
+        { "id": "toxin", "name": "Токсин", "icon": "/icons/scout/toxin.svg", "row": 1, "col": 1, "maxRank": 2, "requires": "corrode", "text": "Яд переходит на соседнюю цель при смерти носителя." },
+        { "id": "numb", "name": "Онемение", "icon": "/icons/scout/numb.svg", "row": 1, "col": 2, "maxRank": 1, "text": "Отравленная цель бьёт на 15% медленнее." }
+      ]
+    }
+  ]
+}

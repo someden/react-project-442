@@ -1,0 +1,53 @@
+{
+  "name": "Маг",
+  "budget": 25,
+  "pointsPerRow": 5,
+  "columns": 4,
+  "trees": [
+    {
+      "id": "fire",
+      "name": "Огонь",
+      "icon": "/icons/demo/tree-fire.svg",
+      "talents": [
+        { "id": "ignite", "name": "Возгорание", "icon": "/icons/demo/ignite.svg", "row": 0, "col": 0, "maxRank": 5, "text": "Урон огнём поджигает цель. Каждый ранг добавляет 4% урона от догорания." },
+        { "id": "embers", "name": "Тлеющие угли", "icon": "/icons/demo/embers.svg", "row": 0, "col": 1, "maxRank": 3, "requires": "ignite", "text": "Догорание длится на 2 сек. дольше за ранг." },
+        { "id": "kindling", "name": "Растопка", "icon": "/icons/demo/kindling.svg", "row": 0, "col": 2, "maxRank": 2, "text": "Заклинания огня стоят на 5% меньше маны за ранг." },
+        { "id": "tinder", "name": "Трут", "icon": "/icons/demo/tinder.svg", "row": 0, "col": 3, "maxRank": 2, "requires": "kindling", "text": "Первое заклинание после боя срабатывает на 0,2 сек. быстрее за ранг." },
+        { "id": "fireball", "name": "Огненный шар", "icon": "/icons/demo/fireball.svg", "row": 1, "col": 0, "maxRank": 3, "text": "Основной снаряд школы огня. Ранг ускоряет заклинание на 0,1 сек." },
+        { "id": "heat", "name": "Жар", "icon": "/icons/demo/heat.svg", "row": 1, "col": 2, "maxRank": 5, "text": "Шанс критического удара огнём выше на 1% за ранг." },
+        { "id": "blastwave", "name": "Взрывная волна", "icon": "/icons/demo/blastwave.svg", "row": 1, "col": 1, "maxRank": 2, "requires": "embers", "text": "Отбрасывает всех рядом и оставляет горящую землю на 2 сек. за ранг." },
+        { "id": "incinerate", "name": "Испепеление", "icon": "/icons/demo/incinerate.svg", "row": 2, "col": 0, "maxRank": 1, "requires": "fireball", "text": "Критический «Огненный шар» мгновенно поджигает всех вокруг цели." },
+        { "id": "firestorm", "name": "Огненный шторм", "icon": "/icons/demo/firestorm.svg", "row": 2, "col": 1, "maxRank": 1, "requires": "blastwave", "text": "Горящая земля растёт вдвое и поджигает входящих в неё." }
+      ]
+    },
+    {
+      "id": "frost",
+      "name": "Лёд",
+      "icon": "/icons/demo/tree-frost.svg",
+      "talents": [
+        { "id": "iceskin", "name": "Ледяная кожа", "icon": "/icons/demo/iceskin.svg", "row": 0, "col": 0, "maxRank": 5, "text": "Получаемый урон ниже на 2% за ранг, пока держится любой щит льда." },
+        { "id": "rime", "name": "Изморозь", "icon": "/icons/demo/rime.svg", "row": 0, "col": 1, "maxRank": 3, "text": "Замедление от заклинаний льда длится на 1 сек. дольше за ранг." },
+        { "id": "shatter", "name": "Раскол", "icon": "/icons/demo/shatter.svg", "row": 0, "col": 2, "maxRank": 2, "text": "Урон по замедленной цели выше на 5% за ранг." },
+        { "id": "icebolt", "name": "Ледяная стрела", "icon": "/icons/demo/icebolt.svg", "row": 1, "col": 0, "maxRank": 3, "requires": "iceskin", "text": "Снаряд льда, замедляющий цель. Ранг добавляет 5% урона." },
+        { "id": "frostbind", "name": "Ледяные оковы", "icon": "/icons/demo/frostbind.svg", "row": 1, "col": 1, "maxRank": 2, "requires": "rime", "text": "Замедление превращается в обездвиживание на 1 сек. за ранг." },
+        { "id": "coldsnap", "name": "Стужа", "icon": "/icons/demo/coldsnap.svg", "row": 1, "col": 3, "maxRank": 2, "text": "Холод вокруг вас замедляет всех рядом на 5% за ранг." },
+        { "id": "zero", "name": "Абсолютный ноль", "icon": "/icons/demo/zero.svg", "row": 2, "col": 1, "maxRank": 1, "requires": "frostbind", "text": "Замороженную цель не размораживает урон в течение 4 сек." },
+        { "id": "deepfreeze", "name": "Глубокая заморозка", "icon": "/icons/demo/deepfreeze.svg", "row": 2, "col": 2, "maxRank": 1, "requires": "shatter", "text": "Замедленная цель получает весь урон льда как критический." }
+      ]
+    },
+    {
+      "id": "arcane",
+      "name": "Тайна",
+      "icon": "/icons/demo/tree-arcane.svg",
+      "talents": [
+        { "id": "focus", "name": "Сосредоточение", "icon": "/icons/demo/focus.svg", "row": 0, "col": 0, "maxRank": 5, "text": "Чтение заклинания не сбивается уроном с шансом 4% за ранг." },
+        { "id": "wards", "name": "Обереги", "icon": "/icons/demo/wards.svg", "row": 0, "col": 1, "maxRank": 3, "text": "Щит держит на 6% больше урона за ранг." },
+        { "id": "sigil", "name": "Печать", "icon": "/icons/demo/sigil.svg", "row": 0, "col": 2, "maxRank": 2, "text": "Печать под ногами восстанавливает ману, 2% в секунду за ранг." },
+        { "id": "missile", "name": "Тайная стрела", "icon": "/icons/demo/missile.svg", "row": 1, "col": 0, "maxRank": 3, "requires": "focus", "text": "Очередь тайных снарядов. Ранг добавляет один снаряд." },
+        { "id": "blink", "name": "Скачок", "icon": "/icons/demo/blink.svg", "row": 1, "col": 2, "maxRank": 2, "requires": "sigil", "text": "Перенос на 20 м вперёд. Ранг снимает 5 сек. отката." },
+        { "id": "rift", "name": "Разлом", "icon": "/icons/demo/rift.svg", "row": 2, "col": 0, "maxRank": 1, "requires": "missile", "text": "Последний снаряд очереди рвёт пространство и бьёт всех за целью." },
+        { "id": "overload", "name": "Перегрузка", "icon": "/icons/demo/overload.svg", "row": 2, "col": 2, "maxRank": 1, "requires": "blink", "text": "Скачок оставляет на прежнем месте взрыв тайной энергии." }
+      ]
+    }
+  ]
+}
