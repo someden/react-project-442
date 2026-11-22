@@ -1,19 +1,19 @@
 import { Alert, List, MantineProvider } from "@mantine/core";
 import { createNotificationsStore } from "@mantine/notifications";
 import App from './App'
-import type { TalentClass } from "./types";
+import type { TalentsClass } from "./types";
 import { createBuildStore } from "./buildStore";
-import { validateTalentClass } from "./validateTalentClass";
+import { validateTalentsClass } from "./validateTalentsClass";
 
 import "@mantine/core/styles.layer.css";
 import "@mantine/notifications/styles.layer.css";
 import "./theme/fantasy.css";
 import { theme } from "./theme/fantasy";
 
-const errorsScreen = (talentClass: TalentClass, errors: string[]) => {
+const errorsScreen = (talentsClass: TalentsClass, errors: string[]) => {
   return (
     <main className="calculator">
-      <h1>{talentClass.name}</h1>
+      <h1>{talentsClass.name}</h1>
       <Alert color="red" title="Класс не отрисован, в данных ошибки.">
         <List data-testid="structure-errors">
           {errors.map((error) => <List.Item key={error}>{error}</List.Item>)}
@@ -23,22 +23,22 @@ const errorsScreen = (talentClass: TalentClass, errors: string[]) => {
   );
 };
 
-const calculatorScreen = (talentClass: TalentClass) => {
-  const useBuild = createBuildStore(talentClass);
+const calculatorScreen = (talentsClass: TalentsClass) => {
+  const useBuild = createBuildStore(talentsClass);
   const notificationsStore = createNotificationsStore();
 
   return (
-    <App talentClass={talentClass} useBuild={useBuild} notificationsStore={notificationsStore} />
+    <App talentsClass={talentsClass} useBuild={useBuild} notificationsStore={notificationsStore} />
   );
 };
 
 
-const init = (talentClass: TalentClass) => {
-  const errors = validateTalentClass(talentClass);
+const init = (talentsClass: TalentsClass) => {
+  const errors = validateTalentsClass(talentsClass);
 
   return (
     <MantineProvider theme={theme}>
-      {errors.length > 0 ? errorsScreen(talentClass, errors) : calculatorScreen(talentClass)}
+      {errors.length > 0 ? errorsScreen(talentsClass, errors) : calculatorScreen(talentsClass)}
     </MantineProvider>
   );
 };

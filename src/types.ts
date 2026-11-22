@@ -1,4 +1,4 @@
-export type TalentClass = {
+export type TalentsClass = {
   name: string;
   budget: number;
   pointsPerRow: number;

@@ -1,6 +1,6 @@
 import { getTalents, getTalentById } from "./rules";
 import type { TalentWithTreeId } from "./rules";
-import type { Talent, TalentClass } from "./types";
+import type { Talent, TalentsClass } from "./types";
 
 const LIMITS = { columns: 4, rows: 7, trees: 6 };
 
@@ -12,35 +12,35 @@ const straight = (from: Talent, to: Talent) => {
   return rows === 0 ? cols === 1 : cols === 0 && rows >= 1 && rows <= TIER_REACH;
 };
 
-const blockerBetween = (talentClass: TalentClass, from: TalentWithTreeId, to: TalentWithTreeId) =>
-  getTalents(talentClass).find((other) =>
+const blockerBetween = (talentsClass: TalentsClass, from: TalentWithTreeId, to: TalentWithTreeId) =>
+  getTalents(talentsClass).find((other) =>
     other.treeId === to.treeId && other.col === to.col && other.row === from.row + 1
   );
 
-const rowCount = (talentClass: TalentClass) =>
-  getTalents(talentClass).reduce((last, talent) => Math.max(last, talent.row + 1), 0);
+const rowCount = (talentsClass: TalentsClass) =>
+  getTalents(talentsClass).reduce((last, talent) => Math.max(last, talent.row + 1), 0);
 
-export const validateTalentClass = (talentClass: TalentClass): string[] => {
+export const validateTalentsClass = (talentsClass: TalentsClass): string[] => {
   const errors: string[] = [];
 
-  if (talentClass.trees.length > LIMITS.trees) {
-    errors.push(`деревьев ${talentClass.trees.length}, формат держит не больше ${LIMITS.trees}`);
+  if (talentsClass.trees.length > LIMITS.trees) {
+    errors.push(`деревьев ${talentsClass.trees.length}, формат держит не больше ${LIMITS.trees}`);
   }
-  if (talentClass.columns > LIMITS.columns) {
-    errors.push(`колонок ${talentClass.columns}, формат держит не больше ${LIMITS.columns}`);
+  if (talentsClass.columns > LIMITS.columns) {
+    errors.push(`колонок ${talentsClass.columns}, формат держит не больше ${LIMITS.columns}`);
   }
-  if (rowCount(talentClass) > LIMITS.rows) {
-    errors.push(`рядов ${rowCount(talentClass)}, формат держит не больше ${LIMITS.rows}`);
+  if (rowCount(talentsClass) > LIMITS.rows) {
+    errors.push(`рядов ${rowCount(talentsClass)}, формат держит не больше ${LIMITS.rows}`);
   }
 
   const unlocks = new Map<string, string>();
-  for (const talent of getTalents(talentClass)) {
-    if (talent.col >= talentClass.columns) {
-      errors.push(`«${talent.name}» стоит в колонке ${talent.col + 1}, в классе их ${talentClass.columns}`);
+  for (const talent of getTalents(talentsClass)) {
+    if (talent.col >= talentsClass.columns) {
+      errors.push(`«${talent.name}» стоит в колонке ${talent.col + 1}, в классе их ${talentsClass.columns}`);
     }
     if (!talent.requires) continue;
 
-    const required = getTalentById(talentClass, talent.requires);
+    const required = getTalentById(talentsClass, talent.requires);
     if (!required) {
       errors.push(`«${talent.name}» требует талант ${talent.requires}, которого в классе нет`);
       continue;
@@ -49,7 +49,7 @@ export const validateTalentClass = (talentClass: TalentClass): string[] => {
       errors.push(`«${talent.name}» требует «${required.name}» из другого дерева`);
     } else if (straight(required, talent)) {
       const between = talent.row - required.row === TIER_REACH
-        ? blockerBetween(talentClass, required, talent)
+        ? blockerBetween(talentsClass, required, talent)
         : undefined;
       if (between) {
         errors.push(
@@ -68,7 +68,7 @@ export const validateTalentClass = (talentClass: TalentClass): string[] => {
     }
     const taken = unlocks.get(required.id);
     if (taken) {
-      const other = getTalentById(talentClass, taken);
+      const other = getTalentById(talentsClass, taken);
       errors.push(
         `«${required.name}» открывает сразу два таланта, «${other?.name}» и «${talent.name}», `
         + "а связь бывает только одна",
@@ -77,16 +77,16 @@ export const validateTalentClass = (talentClass: TalentClass): string[] => {
     unlocks.set(required.id, talent.id);
   }
 
-  for (const talent of getTalents(talentClass)) {
+  for (const talent of getTalents(talentsClass)) {
     const seen = new Set([talent.id]);
-    let current = talent.requires ? getTalentById(talentClass, talent.requires) : undefined;
+    let current = talent.requires ? getTalentById(talentsClass, talent.requires) : undefined;
     while (current) {
       if (seen.has(current.id)) {
         errors.push(`цепочка опор замкнулась на «${current.name}»`);
         break;
       }
       seen.add(current.id);
-      current = current.requires ? getTalentById(talentClass, current.requires) : undefined;
+      current = current.requires ? getTalentById(talentsClass, current.requires) : undefined;
     }
   }
 

@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import type { Build, TalentClass } from "./types";
+import type { Build, TalentsClass } from "./types";
 import type { Change } from "./rules";
 import { canApply, getTalentRank } from "./rules";
 
@@ -10,13 +10,13 @@ type BuildState = {
   replace: (build: Build) => void;
 };
 
-export const createBuildStore = (talentClass: TalentClass) =>
+export const createBuildStore = (talentsClass: TalentsClass) =>
   create<BuildState>()((set) => ({
     build: {},
     refusal: null,
     change: ({ talentId, delta }) =>
       set((state) => {
-        const verdict = canApply(state.build, talentClass, { talentId, delta });
+        const verdict = canApply(state.build, talentsClass, { talentId, delta });
         if (!verdict.ok) {
           return {
             build: state.build,

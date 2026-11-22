@@ -1,6 +1,6 @@
 import { createRoot } from 'react-dom/client'
 import init from './init'
-import type { TalentClass } from "./types";
+import type { TalentsClass } from "./types";
 import demo from "../__fixtures__/classes/demo.json";
 
-createRoot(document.getElementById('root')!).render(init(demo as TalentClass))
+createRoot(document.getElementById('root')!).render(init(demo as TalentsClass))

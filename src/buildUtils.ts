@@ -1,5 +1,5 @@
 import { getTalentById, getBuildTotal, validateBuild } from "./rules";
-import type { Build, TalentClass } from "./types";
+import type { Build, TalentsClass } from "./types";
 
 export const CODE_VERSION = 1;
 
@@ -20,7 +20,7 @@ export const encodeBuild = (build: Build): string =>
 
 export type DecodeResult = { ok: true; build: Build } | { ok: false; reason: string };
 
-export const decodeBuild = (code: string, talentClass: TalentClass): DecodeResult => {
+export const decodeBuild = (code: string, talentsClass: TalentsClass): DecodeResult => {
   const dot = code.indexOf(".");
   const version = dot === -1 ? "" : code.slice(0, dot);
   if (!/^v\d+$/.test(version)) {
@@ -43,7 +43,7 @@ export const decodeBuild = (code: string, talentClass: TalentClass): DecodeResul
   }
 
   for (const [talentId, rank] of Object.entries(parsed)) {
-    const talent = getTalentById(talentClass, talentId);
+    const talent = getTalentById(talentsClass, talentId);
     if (!talent) {
       return { ok: false, reason: `В билде стоит талант ${talentId}, которого в классе нет` };
     }
@@ -56,13 +56,13 @@ export const decodeBuild = (code: string, talentClass: TalentClass): DecodeResul
   }
 
   const build = parsed as Build;
-  if (getBuildTotal(build) > talentClass.budget) {
+  if (getBuildTotal(build) > talentsClass.budget) {
     return {
       ok: false,
-      reason: `В билде ${getBuildTotal(build)} очков при бюджете класса ${talentClass.budget}`,
+      reason: `В билде ${getBuildTotal(build)} очков при бюджете класса ${talentsClass.budget}`,
     };
   }
-  const broken = validateBuild(talentClass, build);
+  const broken = validateBuild(talentsClass, build);
   if (broken.length > 0) return { ok: false, reason: broken[0].message };
 
   return { ok: true, build };

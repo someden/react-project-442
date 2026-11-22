@@ -8,7 +8,7 @@ import {
 } from "./grid";
 import type { Change } from "./rules";
 import { getTreeTotal, getTalentRank, getTalentState, getRowNeeds } from "./rules";
-import type { Build, TalentClass, Tree } from "./types";
+import type { Build, TalentsClass, Tree } from "./types";
 import TalentLinks from "./TalentLinks";
 
 const getRowsCount = (tree: Tree) =>
@@ -16,15 +16,15 @@ const getRowsCount = (tree: Tree) =>
 
 type TreeOfTalentsProps = {
   tree: Tree;
-  talentClass: TalentClass;
+  talentsClass: TalentsClass;
   build: Build;
   change: (c: Change) => void;
   readonly: boolean;
 };
 
-const TreeOfTalents = ({ tree, talentClass, build, change, readonly }: TreeOfTalentsProps) => {
+const TreeOfTalents = ({ tree, talentsClass, build, change, readonly }: TreeOfTalentsProps) => {
   const rows = Array.from({ length: getRowsCount(tree) }, (_, i) => i);
-  const treeTotal = getTreeTotal(build, talentClass, tree.id);
+  const treeTotal = getTreeTotal(build, talentsClass, tree.id);
 
   return (
     <Card
@@ -43,7 +43,7 @@ const TreeOfTalents = ({ tree, talentClass, build, change, readonly }: TreeOfTal
           {
             "--cell-w": `${TALENT_CELL_WIDTH}px`,
             "--cell-h": `${TALENT_CELL_HEIGHT}px`,
-            "--columns": talentClass.columns,
+            "--columns": talentsClass.columns,
             "--gap": `${GAP}px`,
           } as CSSProperties
         }
@@ -52,13 +52,13 @@ const TreeOfTalents = ({ tree, talentClass, build, change, readonly }: TreeOfTal
         <TalentLinks
           tree={tree}
           rows={rows.length}
-          columns={talentClass.columns}
-          tiers={rows.slice(1).map((row) => ({ needs: getRowNeeds(talentClass, row), row }))}
+          columns={talentsClass.columns}
+          tiers={rows.slice(1).map((row) => ({ needs: getRowNeeds(talentsClass, row), row }))}
         />
         {rows.map((row) => {
           return (
             <div key={row} data-testid={`row-${tree.id}-${row}`} className="tree__row">
-              {Array.from({ length: talentClass.columns }, (_, col) => {
+              {Array.from({ length: talentsClass.columns }, (_, col) => {
                 const talent = tree.talents.find((it) => it.row === row && it.col === col);
                 if (!talent) return <div className="cell cell__empty" key={col} />;
                 return (
@@ -82,7 +82,7 @@ const TreeOfTalents = ({ tree, talentClass, build, change, readonly }: TreeOfTal
                   >
                     <button
                       data-testid={`talent-${talent.id}`}
-                      data-state={getTalentState(build, talentClass, talent)}
+                      data-state={getTalentState(build, talentsClass, talent)}
                       type="button"
                       className="cell"
                       disabled={readonly}

@@ -5,18 +5,18 @@ import { notifications } from "@mantine/notifications";
 import type { UseBuild } from "./buildStore";
 import { encodeBuild } from "./buildUtils";
 import { useSavedBuilds } from "./savedBuildsStore";
-import type { TalentClass } from './types'
+import type { TalentsClass } from './types'
 import GroupOfTalents from './GroupOfTalents';
 
 export type CalculatorProps = {
-  talentClass: TalentClass;
+  talentsClass: TalentsClass;
   useBuild: UseBuild;
   notificationsStore: NotificationsStore;
 };
 
 const notificationId = 'refusal';
 
-const Calculator = ({ talentClass, useBuild, notificationsStore }: CalculatorProps) => {
+const Calculator = ({ talentsClass, useBuild, notificationsStore }: CalculatorProps) => {
   const build = useBuild((state) => state.build);
   const refusal = useBuild((state) => state.refusal);
   const change = useBuild((state) => state.change);
@@ -75,7 +75,7 @@ const Calculator = ({ talentClass, useBuild, notificationsStore }: CalculatorPro
         <a data-testid="share-link" href={link}>{link}</a>
       </p>
       <GroupOfTalents
-        talentClass={talentClass}
+        talentsClass={talentsClass}
         build={build}
         change={change}
       />
