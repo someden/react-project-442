@@ -1,21 +1,19 @@
 import { useEffect } from "react";
-import { Group, Text } from "@mantine/core";
 import type { NotificationData, NotificationsStore } from "@mantine/notifications";
 import { notifications } from "@mantine/notifications";
-import { getBuildTotal } from "./rules";
-import type { UseBuild } from "./store";
+import type { UseBuild } from "./buildStore";
 import type { TalentClass } from './types'
-import TreeOfTalents from './TreeOfTalents';
+import GroupOfTalents from './GroupOfTalents';
 
-type CalculatorProps = {
+export type CalculatorProps = {
   talentClass: TalentClass;
   useBuild: UseBuild;
-  notificationsStore: NotificationsStore
+  notificationsStore: NotificationsStore;
 };
 
 const notificationId = 'refusal';
 
-function Calculator({ talentClass, useBuild, notificationsStore }: CalculatorProps) {
+const Calculator = ({ talentClass, useBuild, notificationsStore }: CalculatorProps) => {
   const build = useBuild((state) => state.build);
   const refusal = useBuild((state) => state.refusal);
   const change = useBuild((state) => state.change);
@@ -43,20 +41,11 @@ function Calculator({ talentClass, useBuild, notificationsStore }: CalculatorPro
 
   return (
     <section data-testid="calculator">
-      <Text className="budget" data-testid="budget-left" mb="sm">
-        Осталось очков: {talentClass.budget - getBuildTotal(build)}
-      </Text>
-      <Group align="flex-start">
-        {talentClass.trees.map((tree) => (
-          <TreeOfTalents
-            key={tree.id}
-            tree={tree}
-            talentClass={talentClass}
-            build={build}
-            change={change}
-          />
-        ))}
-      </Group>
+      <GroupOfTalents
+        talentClass={talentClass}
+        build={build}
+        change={change}
+      />
     </section>
   );
 };

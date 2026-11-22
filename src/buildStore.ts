@@ -7,6 +7,7 @@ type BuildState = {
   build: Build;
   change: (c: Change) => void;
   refusal: string | null;
+  replace: (build: Build) => void;
 };
 
 export const createBuildStore = (talentClass: TalentClass) =>
@@ -28,6 +29,7 @@ export const createBuildStore = (talentClass: TalentClass) =>
           refusal: null,
         };
       }),
+    replace: (build) => set({ build, refusal: null }),
   }));
 
 export type UseBuild = ReturnType<typeof createBuildStore>;

@@ -1,8 +1,8 @@
 import { Alert, List, MantineProvider } from "@mantine/core";
-import { Notifications, createNotificationsStore } from "@mantine/notifications";
-import Calculator from './Calculator'
+import { createNotificationsStore } from "@mantine/notifications";
+import App from './App'
 import type { TalentClass } from "./types";
-import { createBuildStore } from "./store";
+import { createBuildStore } from "./buildStore";
 import { validateTalentClass } from "./validateTalentClass";
 
 import "@mantine/core/styles.layer.css";
@@ -28,10 +28,7 @@ const calculatorScreen = (talentClass: TalentClass) => {
   const notificationsStore = createNotificationsStore();
 
   return (
-    <main className="calculator">
-      <Notifications position="bottom-right" store={notificationsStore} />
-      <Calculator talentClass={talentClass} useBuild={useBuild} notificationsStore={notificationsStore} />
-    </main>
+    <App talentClass={talentClass} useBuild={useBuild} notificationsStore={notificationsStore} />
   );
 };
 

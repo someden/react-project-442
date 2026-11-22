@@ -19,9 +19,10 @@ type TreeOfTalentsProps = {
   talentClass: TalentClass;
   build: Build;
   change: (c: Change) => void;
+  readonly: boolean;
 };
 
-function TreeOfTalents({ tree, talentClass, build, change }: TreeOfTalentsProps) {
+const TreeOfTalents = ({ tree, talentClass, build, change, readonly }: TreeOfTalentsProps) => {
   const rows = Array.from({ length: getRowsCount(tree) }, (_, i) => i);
   const treeTotal = getTreeTotal(build, talentClass, tree.id);
 
@@ -84,6 +85,7 @@ function TreeOfTalents({ tree, talentClass, build, change }: TreeOfTalentsProps)
                       data-state={getTalentState(build, talentClass, talent)}
                       type="button"
                       className="cell"
+                      disabled={readonly}
                       onClick={() => change({ talentId: talent.id, delta: 1 })}
                       onContextMenu={(event) => {
                         event.preventDefault();
