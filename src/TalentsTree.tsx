@@ -10,6 +10,7 @@ import type { Change } from "./rules";
 import { getTreeTotal, getTalentRank, getTalentState, getRowNeeds } from "./rules";
 import type { Build, TalentsClass, Tree } from "./types";
 import TalentsLinks from "./TalentsLinks";
+import basePath from "./basePath";
 
 const getRowsCount = (tree: Tree) =>
   tree.talents.reduce((last, talent) => Math.max(last, talent.row + 1), 0);
@@ -34,7 +35,7 @@ const TalentsTree = ({ tree, talentsClass, build, change, readonly }: TalentsTre
       withBorder
     >
       <Title className="tree__title" mb="xs" order={2}>
-        {tree.icon && <img alt="" className="tree__icon" src={tree.icon} />}
+        {tree.icon && <img alt="" className="tree__icon" src={`${basePath}${tree.icon}`} />}
         {tree.name}
       </Title>
       <div
@@ -93,7 +94,7 @@ const TalentsTree = ({ tree, talentsClass, build, change, readonly }: TalentsTre
                       }}
                     >
                       {talent.icon ? (
-                        <img alt="" className="cell__icon" src={talent.icon} />
+                        <img alt="" className="cell__icon" src={`${basePath}${talent.icon}`} />
                       ) : (
                         <span aria-hidden className="cell__icon cell__icon_letter">
                           {talent.name.slice(0, 1)}

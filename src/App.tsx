@@ -6,9 +6,10 @@ import Calculator from "./Calculator";
 import type { CalculatorProps } from "./Calculator";
 import SavedBuilds from "./SavedBuilds";
 import SharedBuild from "./SharedBuild";
+import basePath from "./basePath";
 
 const App = ({ talentsClass, notificationsStore, useBuild }: CalculatorProps) => (
-  <BrowserRouter>
+  <BrowserRouter basename={basePath}>
     <Notifications position="bottom-right" store={notificationsStore} />
     <main className="calculator">
       <header className="calculator__header">

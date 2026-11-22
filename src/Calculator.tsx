@@ -7,6 +7,7 @@ import { encodeBuild } from "./buildUtils";
 import { useSavedBuilds } from "./savedBuildsStore";
 import type { TalentsClass } from './types'
 import TalentsTrees from './TalentsTrees';
+import basePath from './basePath';
 
 export type CalculatorProps = {
   talentsClass: TalentsClass;
@@ -24,7 +25,7 @@ const Calculator = ({ talentsClass, useBuild, notificationsStore }: CalculatorPr
   const save = useSavedBuilds((state) => state.save);
   const [buildName, setBuildName] = useState("");
 
-  const link = `${window.location.origin}/build/${encodeBuild(build)}`;
+  const link = `${window.location.origin}${basePath}/build/${encodeBuild(build)}`;
 
   useEffect(() => {
     if (refusal === null) {

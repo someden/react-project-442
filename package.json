@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "build-gh-pages": "vite build --base=\"/$(npm pkg get name --silent | tr -d '\\\"')\"",
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest run"

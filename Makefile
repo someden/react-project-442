@@ -15,3 +15,7 @@ lint:
 build:
 	rm -rf dist
 	npm run build
+
+build-gh-pages:
+	rm -rf dist
+	npm run build-gh-pages
