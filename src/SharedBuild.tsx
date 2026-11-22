@@ -1,7 +1,7 @@
 import { Alert, Button } from "@mantine/core";
 import { useNavigate, useParams } from "react-router-dom";
 
-import GroupOfTalents from "./GroupOfTalents";
+import TalentsTrees from "./TalentsTrees";
 import { decodeBuild } from "./buildUtils";
 import type { UseBuild } from "./buildStore";
 import type { TalentsClass } from "./types";
@@ -38,7 +38,7 @@ const SharedBuild = ({ talentsClass, useBuild }: SharedBuildProps) => {
       >
         Взять себе
       </Button>
-      <GroupOfTalents
+      <TalentsTrees
         talentsClass={talentsClass}
         build={decoded.build}
         readonly

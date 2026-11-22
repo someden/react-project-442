@@ -9,12 +9,12 @@ import {
 import type { Change } from "./rules";
 import { getTreeTotal, getTalentRank, getTalentState, getRowNeeds } from "./rules";
 import type { Build, TalentsClass, Tree } from "./types";
-import TalentLinks from "./TalentLinks";
+import TalentsLinks from "./TalentsLinks";
 
 const getRowsCount = (tree: Tree) =>
   tree.talents.reduce((last, talent) => Math.max(last, talent.row + 1), 0);
 
-type TreeOfTalentsProps = {
+type TalentsTreeProps = {
   tree: Tree;
   talentsClass: TalentsClass;
   build: Build;
@@ -22,7 +22,7 @@ type TreeOfTalentsProps = {
   readonly: boolean;
 };
 
-const TreeOfTalents = ({ tree, talentsClass, build, change, readonly }: TreeOfTalentsProps) => {
+const TalentsTree = ({ tree, talentsClass, build, change, readonly }: TalentsTreeProps) => {
   const rows = Array.from({ length: getRowsCount(tree) }, (_, i) => i);
   const treeTotal = getTreeTotal(build, talentsClass, tree.id);
 
@@ -49,7 +49,7 @@ const TreeOfTalents = ({ tree, talentsClass, build, change, readonly }: TreeOfTa
         }
 
       >
-        <TalentLinks
+        <TalentsLinks
           tree={tree}
           rows={rows.length}
           columns={talentsClass.columns}
@@ -118,4 +118,4 @@ const TreeOfTalents = ({ tree, talentsClass, build, change, readonly }: TreeOfTa
   );
 };
 
-export default TreeOfTalents;
+export default TalentsTree;

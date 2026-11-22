@@ -6,7 +6,7 @@ import type { UseBuild } from "./buildStore";
 import { encodeBuild } from "./buildUtils";
 import { useSavedBuilds } from "./savedBuildsStore";
 import type { TalentsClass } from './types'
-import GroupOfTalents from './GroupOfTalents';
+import TalentsTrees from './TalentsTrees';
 
 export type CalculatorProps = {
   talentsClass: TalentsClass;
@@ -74,7 +74,7 @@ const Calculator = ({ talentsClass, useBuild, notificationsStore }: CalculatorPr
       <p className="calculator__link">
         <a data-testid="share-link" href={link}>{link}</a>
       </p>
-      <GroupOfTalents
+      <TalentsTrees
         talentsClass={talentsClass}
         build={build}
         change={change}

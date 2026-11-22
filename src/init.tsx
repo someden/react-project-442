@@ -23,7 +23,7 @@ const errorsScreen = (talentsClass: TalentsClass, errors: string[]) => {
   );
 };
 
-const calculatorScreen = (talentsClass: TalentsClass) => {
+const appScreen = (talentsClass: TalentsClass) => {
   const useBuild = createBuildStore(talentsClass);
   const notificationsStore = createNotificationsStore();
 
@@ -38,7 +38,7 @@ const init = (talentsClass: TalentsClass) => {
 
   return (
     <MantineProvider theme={theme}>
-      {errors.length > 0 ? errorsScreen(talentsClass, errors) : calculatorScreen(talentsClass)}
+      {errors.length > 0 ? errorsScreen(talentsClass, errors) : appScreen(talentsClass)}
     </MantineProvider>
   );
 };

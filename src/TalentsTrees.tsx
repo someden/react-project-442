@@ -2,23 +2,23 @@ import { Group, Text } from "@mantine/core";
 import { getBuildTotal } from "./rules";
 import type { Change } from "./rules";
 import type { TalentsClass, Build } from './types'
-import TreeOfTalents from './TreeOfTalents';
+import TalentsTree from './TalentsTree';
 
-type GroupOfTalentsProps = {
+type TalentsTreesProps = {
   talentsClass: TalentsClass;
   build: Build;
   change?: (c: Change) => void;
   readonly?: boolean;
 };
 
-const GroupOfTalents = ({ talentsClass, build, change = () => {}, readonly = false }: GroupOfTalentsProps) => (
+const TalentsTrees = ({ talentsClass, build, change = () => {}, readonly = false }: TalentsTreesProps) => (
   <>
     <Text className="budget" data-testid="budget-left" mb="sm">
       Осталось очков: {talentsClass.budget - getBuildTotal(build)}
     </Text>
     <Group align="flex-start">
       {talentsClass.trees.map((tree) => (
-        <TreeOfTalents
+        <TalentsTree
           key={tree.id}
           tree={tree}
           talentsClass={talentsClass}
@@ -31,4 +31,4 @@ const GroupOfTalents = ({ talentsClass, build, change = () => {}, readonly = fal
   </>
 );
 
-export default GroupOfTalents;
+export default TalentsTrees;

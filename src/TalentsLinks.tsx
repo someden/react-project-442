@@ -28,14 +28,14 @@ type Tier = {
   row: number;
 };
 
-type Props = {
+type TalentsLinksProps = {
   columns: number;
   rows: number;
   tiers: Tier[];
   tree: Tree;
 };
 
-const TalentLinks = ({ columns, rows, tiers, tree }: Props) => {
+const TalentsLinks = ({ columns, rows, tiers, tree }: TalentsLinksProps) => {
   const links = tree.talents.flatMap((talent) => {
     const from = tree.talents.find((candidate) => candidate.id === talent.requires);
     return from ? [{ from, to: talent }] : [];
@@ -97,4 +97,4 @@ const TalentLinks = ({ columns, rows, tiers, tree }: Props) => {
   );
 };
 
-export default TalentLinks;
+export default TalentsLinks;
