@@ -7,7 +7,7 @@ export const TIER_LABEL_TEXT = TIER_LABEL_WIDTH - 6;
 
 export const gridWidth = (columns: number) => columns * TALENT_CELL_WIDTH + (columns - 1) * GAP;
 
-export const gridHeight = (rows: number) => rows * (TALENT_CELL_HEIGHT + GAP) - GAP;
+export const gridHeight = (rows: number) => Math.max(rows * (TALENT_CELL_HEIGHT + GAP) - GAP, 0);
 
 export const centerX = (col: number) => col * (TALENT_CELL_WIDTH + GAP) + TALENT_CELL_WIDTH / 2;
 
