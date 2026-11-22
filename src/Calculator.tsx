@@ -40,6 +40,7 @@ const Calculator = ({ talentsClass, useBuild, notificationsStore }: CalculatorPr
       color: "red",
       message: refusal,
     };
+    notifications.hide(notificationId, notificationsStore);
     notifications.show(shown, notificationsStore);
   }, [refusal, notificationsStore]);
 
