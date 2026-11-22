@@ -1,4 +1,4 @@
-import type { Build, Talent, TalentsClass, TalentState } from "./types";
+import type { Tree, Build, Talent, TalentsClass, TalentState } from "./types";
 
 export const getTalentRank = (build: Build, talentId: string): number => build[talentId] ?? 0;
 
@@ -46,8 +46,11 @@ export const getTalents = (talentsClass: TalentsClass): TalentWithTreeId[] =>
 export const getBuildTotal = (build: Build): number =>
   Object.values(build).reduce((sum, rank) => sum + rank, 0);
 
+const getTreeById = (talentsClass: TalentsClass, treeId: string): Tree | undefined =>
+  talentsClass.trees.find((tree) => tree.id === treeId);
+
 export const getTreeTotal = (build: Build, talentsClass: TalentsClass, treeId: string): number => {
-  const tree = talentsClass.trees.find((tree) => tree.id === treeId);
+  const tree = getTreeById(talentsClass, treeId);
   if (!tree) {
     return 0;
   }
@@ -63,12 +66,15 @@ export const validateBuild = (talentsClass: TalentsClass, build: Build) => {
 
   for (const talent of talents) {
     if (getTalentRank(build, talent.id) === 0) continue;
+    const tree = getTreeById(talentsClass, talent.treeId);
     const rowNeeds = getRowNeeds(talentsClass, talent.row);
     const treeTotal = getTreeTotal(build, talentsClass, talent.treeId);
     if (treeTotal < rowNeeds) {
       invalidTalents.push({
         talentId: talent.id,
-        message: `Для таланта «${talent.name}» нужно ${rowNeeds} очков опоры, а набрано ${treeTotal}`,
+        message:
+          `«${talent.name}» стоит в ряду ${talent.row + 1} дерева «${tree?.name}», `
+          + `а ряду нужно ${rowNeeds} очков при набранных ${treeTotal}`,
       })
     }
     if (talent.requires) {
@@ -76,7 +82,9 @@ export const validateBuild = (talentsClass: TalentsClass, build: Build) => {
       if (required && getTalentRank(build, required.id) < required.maxRank) {
         invalidTalents.push({
           talentId: talent.id,
-          message: `Для таланта «${talent.name}» нужно ${required.maxRank} очков опоры, а набрано ${getTalentRank(build, required.id)}`,
+          message:
+            `Опора «${talent.name}» это «${required.name}» ${required.maxRank}/${required.maxRank}, `
+            + `а там ${getTalentRank(build, required.id)}/${required.maxRank}`,
         })
       }
     }
