@@ -48,17 +48,6 @@
         { "id": "rift", "name": "Разлом", "icon": "/icons/demo/rift.svg", "row": 2, "col": 0, "maxRank": 1, "requires": "missile", "text": "Последний снаряд очереди рвёт пространство и бьёт всех за целью." },
         { "id": "overload", "name": "Перегрузка", "icon": "/icons/demo/overload.svg", "row": 2, "col": 2, "maxRank": 1, "requires": "blink", "text": "Скачок оставляет на прежнем месте взрыв тайной энергии." }
       ]
-    },
-    {
-      "id": "venom",
-      "name": "Яд",
-      "icon": "/icons/scout/tree-venom.svg",
-      "talents": [
-        { "id": "poison", "name": "Яд", "icon": "/icons/scout/poison.svg", "row": 0, "col": 0, "maxRank": 3, "text": "Стрела оставляет яд, 4 урона в секунду за ранг." },
-        { "id": "corrode", "name": "Разъедание", "icon": "/icons/scout/corrode.svg", "row": 0, "col": 1, "maxRank": 2, "requires": "poison", "text": "Яд снимает с цели 5% брони за ранг." },
-        { "id": "toxin", "name": "Токсин", "icon": "/icons/scout/toxin.svg", "row": 1, "col": 1, "maxRank": 2, "requires": "corrode", "text": "Яд переходит на соседнюю цель при смерти носителя." },
-        { "id": "numb", "name": "Онемение", "icon": "/icons/scout/numb.svg", "row": 1, "col": 2, "maxRank": 1, "text": "Отравленная цель бьёт на 15% медленнее." }
-      ]
     }
   ]
 }
