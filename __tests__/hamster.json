@@ -1,0 +1,17 @@
+{
+  "name": "Грызун",
+  "budget": 7,
+  "pointsPerRow": 5,
+  "columns": 2,
+  "trees": [
+    {
+      "id": "hamster",
+      "name": "Хомяк",
+      "talents": [
+        { "id": "cheeks", "name": "Щеки", "row": 0, "col": 0, "maxRank": 5, "text": "Больше запасов." },
+        { "id": "paws", "name": "Лапки", "row": 0, "col": 1, "maxRank": 2, "requires": "cheeks", "text": "Бегут быстрее." },
+        { "id": "fur", "name": "Мех", "row": 1, "col": 0, "maxRank": 2, "text": "Зимой теплее." }
+      ]
+    }
+  ]
+}
