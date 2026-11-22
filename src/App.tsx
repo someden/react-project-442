@@ -24,7 +24,7 @@ const App = ({ talentClass, notificationsStore, useBuild }: CalculatorProps) => 
           element={<Calculator talentClass={talentClass} notificationsStore={notificationsStore} useBuild={useBuild} />}
           path="/"
         />
-        <Route element={<SavedBuilds />} path="/saved" />
+        <Route element={<SavedBuilds useBuild={useBuild} />} path="/saved" />
         <Route element={<SharedBuild talentClass={talentClass} useBuild={useBuild} />} path="/build/:code" />
         <Route element={<p>Такого экрана нет.</p>} path="*" />
       </Routes>
