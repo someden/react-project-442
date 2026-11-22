@@ -1,5 +1,5 @@
-export const TALENT_CELL_WIDTH = 160;
-export const TALENT_CELL_HEIGHT = 160;
+export const TALENT_CELL_WIDTH = 96;
+export const TALENT_CELL_HEIGHT = 96;
 export const GAP = 16;
 export const TIER_LABEL_WIDTH = 44;
 
